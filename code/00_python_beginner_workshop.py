@@ -1,3 +1,4 @@
+#! python2
 '''
 Python Beginner Workshop
 '''
@@ -13,7 +14,7 @@ You can use single or double quotes.
 # BASIC DATA TYPES
 
 x = 5               # creates an object
-print type(x)       # check the type: int (not declared explicitly)
+print (type(x))      # check the type: int (not declared explicitly)
 type(x)             # automatically prints
 type(5)             # assigning it to a variable is not required
 
@@ -56,20 +57,22 @@ def calc(x, y, op):         # three parameters (without any defaults)
     elif op == 'subtract':
         return x - y
     else:
-        print 'Valid operations: add, subtract'
+        print('Valid operations: add, subtract')
 
 calc(5, 3, 'add')
 calc(5, 3, 'subtract')
 calc(5, 3, 'multiply')
-calc(5, 3)
+# calc(5, 3)
 
 
 # EXERCISE: Write a function that takes two parameters (hours and rate), and
 # returns the total pay.
 
-
+def get_total_pay(total_hours, dollars_per_hour):
+    return total_hours * dollars_per_hour
 
 # Use a FOR LOOP to print each list element of this list in uppercase
 fruits = ['apple', 'banana', 'cherry']
 
-
+for fruit in fruits:
+    print(fruit)

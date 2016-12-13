@@ -15,7 +15,11 @@ a[1:3]      # returns [2, 3] (inclusive of first index but exclusive of second)
 a[-1]       # returns 5 (last element)
 
 # appending
-a[5] = 6        # error because you can't assign outside the existing range
+try:
+    a[5] = 6        # error because you can't assign outside the existing range
+except IndexError as err:
+    print(err)
+
 a.append(6)     # list method that appends 6 to the end
 a = a + [0]     # use plus sign to combine lists
 
@@ -29,8 +33,10 @@ type(a[0])  # returns int
 # sorting
 sorted(a)               # sorts the list
 sorted(a, reverse=True) # reverse=True is an 'optional argument'
-sorted(a, True)         # error because optional arguments must be named
-
+try:
+    sorted(a, True)         # error because optional arguments must be named
+except TypeError as err:
+    print(err)
 
 '''
 STRINGS
@@ -46,11 +52,17 @@ a[-1]       # returns 'o'
 
 # concatenating
 a + ' there'        # use plus sign to combine strings
-5 + ' there'        # error because they are different types
+try:
+    5 + ' there'        # error because they are different types
+except Exception as err:
+    print(err)
 str(5) + ' there'   # cast 5 to a string in order for this to work
 
 # uppercasing
-a[0] = 'H'      # error because strings are immutable (can't overwrite characters)
+try:
+    a[0] = 'H'      # error because strings are immutable (can't overwrite characters)
+except Exception as err:
+    print(err)
 a.upper()       # string method (this method doesn't exist for lists)
 
 # checking length
@@ -69,10 +81,27 @@ EXERCISE:
 Bonus: Sort the list by the length of the names (shortest to longest).
 '''
 
+family_members = ['Thing1', 'Thing3', 'Thing2']
+print("1. created family members list:", family_members)
 
+family_members_length = len(family_members)
+if family_members_length > 0:
+    print("2. name of last person in the list:", family_members[family_members_length-1])
+    print("3. length of name of first person in list:", len(family_members[0]))
 
+    family_members[0] = family_members[0].replace('thing', '<3')
+    print("4. rename family member:", family_members)
 
+    new_guy_suffix = family_members_length + 1
+    family_members.append('Thing' + str(new_guy_suffix))
+    print("5. added new guy:", family_members)
 
+    family_members_last_index = len(family_members) - 1
+    family_members[family_members_last_index] = family_members[family_members_last_index].lower()
+    print("6. lowercase new guy:", family_members)
+
+    family_members.sort()
+    print("7. sort list in alphabetical order:", family_members)
 
 
 '''
@@ -82,12 +111,12 @@ FOR LOOPS AND LIST COMPREHENSIONS
 # for loop to print 1 through 5
 nums = range(1, 6)      # create a list of 1 through 5
 for val in nums:        # num 'becomes' each list element for one loop
-    print val
+    print (val)
 
 # for loop to print 1, 3, 5
 other = [1, 3, 5]       # create a different list
 for x in other:         # name 'x' does not matter, not defined in advance
-    print x             # this loop only executes 3 times (not 5)
+    print (x)             # this loop only executes 3 times (not 5)
 
 # for loop to create a list of 2, 4, 6, 8, 10
 nums = range(1, 6)
@@ -108,13 +137,18 @@ Write a list comprehension that returns: ['A', 'B', 'C']
 '''
 
 
+letters = ['a', 'b', 'c']
+print(letters,'->', [x.capitalize() for x in letters])
+
+
 '''
 EXERCISE 2 (BONUS):
 Given that: word = 'abc'
 Write a list comprehension that returns: ['A', 'B', 'C']
 '''
 
-
+word = 'abc'
+print(word, '->', [x.capitalize() for x in word])
 
 
 '''
@@ -123,8 +157,9 @@ Given that: fruits = ['Apple', 'Banana', 'Cherry']
 Write a list comprehension that returns: ['A', 'B', 'C']
 '''
 
+fruits = ['Apple', 'Banana', 'Cherry']
 
-
+print(fruits, '->', [x[0] for x in fruits])
 
 
 '''
@@ -141,10 +176,17 @@ len(family)         # returns 3 (number of key-value pairs)
 family['dad']       # returns 'Homer'
 
 # can't use a value to look up a key
-family['Homer']     # error
 
-# dictionaries are unordered
-family[0]           # error
+try:
+    family['Homer']     # error
+except Exception as err:
+    print(err)
+    
+try:
+    # dictionaries are unordered
+    family[0]           # error
+except Exception as err:
+    print(err)
 
 # add a new entry
 family['cat'] = 'snowball'
@@ -171,23 +213,30 @@ family.items()      # returns list of tuples:
 
 #1. Print the name of the mom.
 
-
+print(family['mom'])
 
 #2. Change the size to 5.
 
-
+family['size'] = 5
+print(family['size'])
 
 #3. Add 'Maggie' to the list of kids.
 
-
+family['kids'].append('Maggie')
+print(family['kids'])
 
 #4. Fix 'bart' and 'lisa' so that the first letter is capitalized.
+for idx, kid in enumerate(family['kids']):
+    # kid = kid[0].capitalize() + kid[1:]
+    family['kids'][idx] = kid[0].capitalize() + kid[1:]
+    # family['kids'][idx] = kid
+
+print(family['kids'])
 
 #Bonus: Do this last step using a list comprehension.
 
-
-
-
+family['kids'] = [x[0].lower() + x[1:] for x in family['kids']]
+print(family['kids'])
 
 '''
 REQUESTS
@@ -195,6 +244,8 @@ REQUESTS
 
 # import module (make its functions available)
 import requests
+
+print(requests)
 
 # use requests to talk to the web
 r = requests.get('http://www.google.com')
